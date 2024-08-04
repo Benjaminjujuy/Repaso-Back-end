@@ -1,43 +1,52 @@
-const productos = []
-
+const serviciosDeProductos = require(`../services/productos.services`)
 
 const crearProducto = (req, res) => {
-    const producto = req.body
-   
-    productos.push({id: crypto.randomUUID(), producto})
-    res.send(`Producto creado`)
+    const result = serviciosDeProductos.nuevoProducto(req.body)
+    if(result.statusCode === 201){
+    res.staus(201).json({msg: result.msg})
+    }else{
+    res.staus(500).json({msg: result.msg})
+    }
    }
 
 const traerTodosLosProductos = (req, res) => {
-    res.json(productos)
+   const result = serviciosDeProductos.obtenerProductos()
+
+   if(result.statusCode === 200){
+    res.staus(200).json({msg: result.msg})
+   }else{
+    res.staus(500).json({msg: result.msg})
+   }
    }
 
 const traerUnProducto = (req,res) => {
-    const id = req.params.idProdducto
-    const producto = productos.find((prod) => prod.id === id)
-    
-    res.json(producto)
+   const result = serviciosDeProductos.obtenerProducto(req.params.idProducto)
+
+   if(result.statusCode === 200){
+    res.staus(200).json({msg: result.msg})
+   }else{
+    res.staus(500).json({msg: result.msg})
+   }
   }
 
 const actualizarUnProducto = (req,res) => {
-    const id = req.params.idProducto
-    const posicionProducto = productos.findIndex((prod) => prod.id === id)
-    
-    const productoActualizado = {
-        id,
-        ...req.body
-    }
-    productos[posicionProducto] = productoActualizado
+   const result = serviciosDeProductos.actualizarProducto(req.params.idProducto, req.body)
 
-    res.json({msg: `Producto actualizado`})
+   if(result.statusCode === 200){
+    res.staus(200).json({msg: result.msg})
+   }else{
+    res.staus(500).json({msg: result.msg})
+   }   
 }
 
 const eliminarUnProducto = (req,res) => {
-    const id = req.params.idProducto
-    const posicionProducto = productos.findIndex((prod) => prod.id === id)
-    productos.splice(posicionProducto, 1)
+    const result = serviciosDeProductos.eliminarProducto(req.params.idProducto)
 
-    res.json({msg: `Producto eliminado`})
+    if(result.statusCode === 200){
+     res.staus(200).json({msg: result.msg})
+    }else{
+     res.staus(500).json({msg: result.msg})
+    } 
 }
 
 
