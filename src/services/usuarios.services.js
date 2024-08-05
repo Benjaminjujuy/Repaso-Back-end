@@ -1,4 +1,4 @@
-const usuarios = []
+
 
 const nuevoUsuario = (usuario) => {
     try {
