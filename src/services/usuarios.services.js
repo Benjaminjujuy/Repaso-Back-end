@@ -1,8 +1,16 @@
+const usuariosModel = require(`../models/usuarios.schema`)
+const bcrypt = require(`bcrypt`)
+const jwt = require(`jsonwebtoken`)
 
 
-const nuevoUsuario = (usuario) => {
+const nuevoUsuario = async(usuario) => {
     try {
-        usuarios.push({id: crypto.randomUUID(), usuario})
+        const usuario = new usuariosModel(body)
+
+        let salt = bcrypt.genSaltSync();
+        usuario.contrasenia = bcrypt.hashSync(body.contrasenia, salt);
+
+        await usuario.save()
         return{
             msg:`Usuario creado`,
             statusCode: 201
@@ -16,10 +24,11 @@ const nuevoUsuario = (usuario) => {
     }
     }
 
-    const obtenerUsuarios = () => {
+    const obtenerUsuarios = async() => {
         try {
+            const usuario = await usuariosModel.find()
          return{
-            usuarios,
+            usuario,
             statusCode: 200
          }   
         } catch (error) {
@@ -31,9 +40,9 @@ const nuevoUsuario = (usuario) => {
         }
     }
 
-    const obtenerUsuario = (idUsuario) =>{
+    const obtenerUsuario = async(idUsuario) =>{
         try {
-           const usuario = usuarios.find((prod) => prod.id === idUsuario)
+            const usuario = await usuariosModel.findById(idUsuario)
            return{
                usuario,
                statusCode: 200
@@ -47,15 +56,9 @@ const nuevoUsuario = (usuario) => {
         }
        }
 
-       const actualizarUsuario = (idUsuario) => {
+       const actualizarUsuario = async(idUsuario, body) => {
         try {
-            const posicionUsuario = usuarios.findIndex((user) => user.id === idUsuario)
-        
-            const UsuarioActualizado = {
-                id,
-                ...req.body
-            }
-            usuarios[posicionUsuario] = UsuarioActualizado
+             await usuariosModel.findByIdAndUpdate({_id: idUsuario}, body)
         
             return{
                 msg:`Usuario actualizado`,
@@ -70,19 +73,61 @@ const nuevoUsuario = (usuario) => {
         }
     }  
 
-    const eliminarUsuario = (idUsuario) => {
-        const posicionUsuario = usuarios.findIndex((user) => user.id === idUsuario)
-        usuarios.splice(posicionUsuario, 1) 
-        return{
-            msg: `Usuario eliminado correctamente`,
-            statusCode: 200
+    const eliminarUsuario = async(idUsuario) => {
+        await usuariosModel.findByIdAndDelete()
+
+        if(usuarioExiste){
+            await usuariosModel.findByIdAndDelete({_id: idUsuario})
+            return{
+                msg: `Usuario eliminado correctamente`,
+                statusCode: 200
+            }
+        }else{
+            return{
+                msg: `ID Incorrecto`,
+                statusCode: 400
+            }
         }
     }  
+
+    const inicioSesionUsuario = async(body) => {
+       const usuarioExiste = await usuariosModel.findOne({nombreUsuario: body.nombreUsuario})
+       if(!usuarioExiste){
+        return {
+            msg: `Usuario y/o contrasenia incorrecta. USUARIO`,
+            statusCode: 400
+        }
+       }
+
+       const checkContrasenia = bcrypt.compareSync(body.contrasenia, usuarioExiste.contrasenia)
+
+       if(!checkContrasenia){
+        return {
+            msg: `Usuario y/o contrasenia incorrecta. CONTRASENIA`,
+            statusCode: 400
+        }
+       }
+       
+      const payload = {
+        idUsuario: usuarioExiste._id,
+        rol: usuarioExiste.rol
+      }
+
+      const token = jwt.sign(payload.process.env.JWT_SECRET)
+
+      return{
+        token,
+        rol: usuarioExiste.rol,
+        msg: `Usuario logueado`,
+        statusCode: 200
+      }
+    }
     
 module.exports = {
     nuevoUsuario,
     obtenerUsuarios,
     obtenerUsuario,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    inicioSesionUsuario
 }
