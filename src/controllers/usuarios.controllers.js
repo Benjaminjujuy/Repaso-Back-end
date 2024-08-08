@@ -1,8 +1,15 @@
+const { validationResult } = require("express-validator")
 const serviciosDeUsuarios = require(`../services/usuarios.services`)
 
 
-const crearUsuario = (req, res) => {
-  const result = serviciosDeUsuarios.nuevoUsuario(req.body)
+const crearUsuario = async (req, res) => {
+  const errors = validationResult(req)
+
+  if(!errors.isEmpty()){
+    return res.status(400).json({msg: errors.array()})
+  }
+
+  const result = await serviciosDeUsuarios.nuevoUsuario(req.body)
 
   if(result.statusCode === 201){
     res.status(201).json({msg: result.msg})
@@ -11,8 +18,8 @@ const crearUsuario = (req, res) => {
     }
 }
 
-const traerTodosLosUsuarios = (req, res) => {
-  const result = serviciosDeUsuarios.obtenerUsuarios()
+const traerTodosLosUsuarios = async(req, res) => {
+  const result = await serviciosDeUsuarios.obtenerUsuarios()
 
   if(result.statusCode === 200){
     res.status(200).json({msg: result.msg})
@@ -21,8 +28,8 @@ const traerTodosLosUsuarios = (req, res) => {
     }
 }
 
-const traerUnUsuario = (req, res) => {
-    const result = serviciosDeUsuarios.obtenerUsuario(req.params.idUsuario)
+const traerUnUsuario = async (req, res) => {
+    const result = await serviciosDeUsuarios.obtenerUsuario(req.params.idUsuario)
 
     if(result.statusCode === 200){
         res.status(200).json({msg: result.msg})

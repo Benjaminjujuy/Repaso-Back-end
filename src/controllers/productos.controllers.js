@@ -1,6 +1,13 @@
+const { validationResult } = require("express-validator")
 const serviciosDeProductos = require(`../services/productos.services`)
 
 const crearProducto = (req, res) => {
+   const errors = validationResult(req)
+
+   if(!errors.isEmpty()){
+     return res.status(400).json({msg: errors.array()})
+   }
+ 
     const result = serviciosDeProductos.nuevoProducto(req.body)
     if(result.statusCode === 201){
     res.status(201).json({msg: result.msg})
@@ -30,6 +37,13 @@ const traerUnProducto = (req,res) => {
   }
 
 const actualizarUnProducto = (req,res) => {
+   const errors = validationResult(req)
+
+   if(!errors.isEmpty()){
+     return res.status(400).json({msg: errors.array()})
+   }
+ 
+
    const result = serviciosDeProductos.actualizarProducto(req.params.idProducto, req.body)
 
    if(result.statusCode === 200){

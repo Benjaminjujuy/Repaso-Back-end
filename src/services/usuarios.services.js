@@ -5,6 +5,16 @@ const jwt = require(`jsonwebtoken`)
 
 const nuevoUsuario = async(usuario) => {
     try {
+
+        const usuarioExiste = await usuariosModel.findOne({nombreUsuario: body.nombreUsuario})
+
+        if(usuarioExiste){
+            return{
+                msg: `Usuario no disponible`,
+                statusCode: 409,
+            }
+        }
+
         const usuario = new usuariosModel(body)
 
         let salt = bcrypt.genSaltSync();
