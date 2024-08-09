@@ -1,12 +1,11 @@
 const { Schema, model } = require(`mongoose`)
 
-
-
 const usuarioSchema = new Schema({
     nombreUsuario: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     contrasenia: {
         type: String,
@@ -16,8 +15,7 @@ const usuarioSchema = new Schema({
     rol: {
         type: String,
         default: `Usuario`,
-        required: true,
-        trim: true
+        enum: [`usuario`, `admin`]
     },
     bloqueado: {
         type: Boolean,

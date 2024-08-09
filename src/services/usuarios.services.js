@@ -2,10 +2,8 @@ const usuariosModel = require(`../models/usuarios.schema`)
 const bcrypt = require(`bcrypt`)
 const jwt = require(`jsonwebtoken`)
 
-
 const nuevoUsuario = async(usuario) => {
     try {
-
         const usuarioExiste = await usuariosModel.findOne({nombreUsuario: body.nombreUsuario})
 
         if(usuarioExiste){
@@ -36,9 +34,9 @@ const nuevoUsuario = async(usuario) => {
 
     const obtenerUsuarios = async() => {
         try {
-            const usuario = await usuariosModel.find()
+            const usuarios = await usuariosModel.find()
          return{
-            usuario,
+            usuarios,
             statusCode: 200
          }   
         } catch (error) {
@@ -84,7 +82,7 @@ const nuevoUsuario = async(usuario) => {
     }  
 
     const eliminarUsuario = async(idUsuario) => {
-        await usuariosModel.findByIdAndDelete()
+        await usuariosModel.findByIdAndDelete({_id: idUsuario})
 
         if(usuarioExiste){
             await usuariosModel.findByIdAndDelete({_id: idUsuario})
