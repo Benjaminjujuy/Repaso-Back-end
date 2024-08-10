@@ -121,7 +121,7 @@ const nuevoUsuario = async(usuario) => {
         rol: usuarioExiste.rol
       }
 
-      const token = jwt.sign(payload.process.env.JWT_SECRET)
+      const token = jwt.sign(payload, process.env.JWT_SECRET)
 
       return{
         token,
