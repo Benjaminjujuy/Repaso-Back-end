@@ -2,7 +2,7 @@ const usuariosModel = require(`../models/usuarios.schema`)
 const bcrypt = require(`bcrypt`)
 const jwt = require(`jsonwebtoken`)
 
-const nuevoUsuario = async(usuario) => {
+const nuevoUsuario = async(body) => {
     try {
         const usuarioExiste = await usuariosModel.findOne({nombreUsuario: body.nombreUsuario})
 

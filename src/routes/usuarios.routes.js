@@ -19,7 +19,7 @@ router.post(`/login`,[
     check(`contrasenia`, `min 8 y max 40`).isLength({min:8, max:40})
 ], iniciarSesion)
    
-router.get(`/`,auth(`usuario`), traerTodosLosUsuarios)
+router.get(`/`, auth(`usuario`), traerTodosLosUsuarios)
    
 router.get(`/:idUsuario`, traerUnUsuario)
    

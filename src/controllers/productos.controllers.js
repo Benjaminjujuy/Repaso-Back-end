@@ -43,7 +43,6 @@ const actualizarUnProducto = (req,res) => {
      return res.status(400).json({msg: errors.array()})
    }
  
-
    const result = serviciosDeProductos.actualizarProducto(req.params.idProducto, req.body)
 
    if(result.statusCode === 200){
