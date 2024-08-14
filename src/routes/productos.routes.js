@@ -1,7 +1,7 @@
 const express = require(`express`)
-const { crearProducto, traerTodosLosProductos, traerUnProducto, actualizarUnProducto, eliminarUnProducto, agregarProductosAlFavorito, agregarProductosAlCarrito, borrarProductoDeFavoritos, borrarProductoDeCarrito } = require("../controllers/productos.controllers")
+const { crearProducto, traerTodosLosProductos, traerUnProducto, actualizarUnProducto, eliminarUnProducto, agregarProductosAlFavorito, agregarProductosAlCarrito, borrarProductoDeFavoritos, borrarProductoDeCarrito, agregarImagenProducto } = require("../controllers/productos.controllers")
 const { check } = require("express-validator")
-const multer = require("multer")
+const multer = require("../middlewares/multer")
 const router = express.Router()
 
 

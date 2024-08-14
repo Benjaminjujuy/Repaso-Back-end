@@ -1,4 +1,4 @@
-const { cloudinary } = require("../helpers/cloudinary")
+const cloudinary = require("../helpers/cloudinary")
 const ProductosModel = require(`../models/productos.schema`)
 
 const nuevoProducto = async(body) => {
@@ -90,7 +90,7 @@ const eliminarProducto = async(idProducto) => {
 const imagenProducto = async(idProducto, file) => {
     try {
       const producto = await ProductosModel.findById(idProducto)
-      const imagen = cloudinary.uploader.upload(file.path)
+      const imagen = await cloudinary.uploader.upload(file.path)
       producto.imagen = imagen.secure_url
       await producto.save()
 

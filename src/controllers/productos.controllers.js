@@ -1,14 +1,15 @@
 const { validationResult } = require("express-validator")
 const serviciosDeProductos = require(`../services/productos.services`)
 
-const crearProducto = (req, res) => {
+const crearProducto = async (req, res) => {
    const errors = validationResult(req)
 
    if(!errors.isEmpty()){
      return res.status(400).json({msg: errors.array()})
    }
  
-    const result = serviciosDeProductos.nuevoProducto(req.body)
+    const result = await serviciosDeProductos.nuevoProducto(req.body)
+
     if(result.statusCode === 201){
     res.status(201).json({msg: result.msg})
     }else{
@@ -16,8 +17,8 @@ const crearProducto = (req, res) => {
     }
    }
 
-const traerTodosLosProductos = (req, res) => {
-   const result = serviciosDeProductos.obtenerProductos()
+const traerTodosLosProductos = async (req, res) => {
+   const result = await serviciosDeProductos.obtenerProductos()
 
    if(result.statusCode === 200){
     res.status(200).json({msg: result.msg})
@@ -26,8 +27,8 @@ const traerTodosLosProductos = (req, res) => {
    }
    }
 
-const traerUnProducto = (req,res) => {
-   const result = serviciosDeProductos.obtenerProducto(req.params.idProducto)
+const traerUnProducto = async (req,res) => {
+   const result = await serviciosDeProductos.obtenerProducto(req.params.idProducto)
 
    if(result.statusCode === 200){
     res.status(200).json({msg: result.msg})
@@ -36,14 +37,14 @@ const traerUnProducto = (req,res) => {
    }
   }
 
-const actualizarUnProducto = (req,res) => {
+const actualizarUnProducto = async (req,res) => {
    const errors = validationResult(req)
 
    if(!errors.isEmpty()){
      return res.status(400).json({msg: errors.array()})
    }
  
-   const result = serviciosDeProductos.actualizarProducto(req.params.idProducto, req.body)
+   const result = await serviciosDeProductos.actualizarProducto(req.params.idProducto, req.body)
 
    if(result.statusCode === 200){
     res.status(200).json({msg: result.msg})
@@ -52,8 +53,8 @@ const actualizarUnProducto = (req,res) => {
    }   
 }
 
-const eliminarUnProducto = (req,res) => {
-    const result = serviciosDeProductos.eliminarProducto(req.params.idProducto)
+const eliminarUnProducto = async (req,res) => {
+    const result = await serviciosDeProductos.eliminarProducto(req.params.idProducto)
 
     if(result.statusCode === 200){
      res.status(200).json({msg: result.msg})
@@ -63,9 +64,9 @@ const eliminarUnProducto = (req,res) => {
 }
 
 const agregarImagenProducto = async(req,res) =>{
-    const result = await serviciosDeProductos.imagenProducto()
+    const result = await serviciosDeProductos.imagenProducto(req.params.idProducto, req.file)
 
-    if(result.statusCode === 200){
+    if(result.statuscode === 200){
       res.status(200).json({msg: result.msg})
      }else{
       res.status(500).json({msg: result.msg})

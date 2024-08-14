@@ -1,7 +1,7 @@
 const express = require(`express`)
 const { crearUsuario, traerTodosLosUsuarios, traerUnUsuario, actualizarUnUsuario, eliminarUnUsuario, iniciarSesion } = require("../controllers/usuarios.controllers")
 const { check } = require("express-validator")
-const auth = require("../midlewares/auth")
+const auth = require("../middlewares/auth")
 
 const router = express.Router()
 

@@ -8,6 +8,7 @@ module.exports = multer({
 
      if(ext !== '.jpg' && ext !== '.png' && ext !== '.jpeg'){
      return cb(new Error('Formato incorrecto'), false)}
+     
      cb(null, true)
     }
 })
