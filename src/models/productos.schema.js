@@ -18,7 +18,9 @@ const productoSchema = new Schema({
     imagen:{
         type: String,
         default: ``
-    }
+    },
+    carrito:[],
+    favoritos:[]
 })
 
 const ProductosModel = model(`productos`, productoSchema)

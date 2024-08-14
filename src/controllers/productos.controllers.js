@@ -62,11 +62,42 @@ const eliminarUnProducto = (req,res) => {
     } 
 }
 
+const agregarImagenProducto = async(req,res) =>{
+    const result = await serviciosDeProductos.imagenProducto()
+
+    if(result.statusCode === 200){
+      res.status(200).json({msg: result.msg})
+     }else{
+      res.status(500).json({msg: result.msg})
+     } 
+}
+
+const agregarProductosAlCarrito = () => {
+
+}
+
+const agregarProductosAlFavorito = () => {
+
+}
+
+const borrarProductoDeCarrito = () => {
+
+}
+
+const borrarProductoDeFavoritos = () => {
+   
+}
+
 
    module.exports = {
     crearProducto,
     traerTodosLosProductos,
     traerUnProducto,
     actualizarUnProducto,
-    eliminarUnProducto
+    eliminarUnProducto,
+    agregarImagenProducto,
+    agregarProductosAlCarrito,
+    agregarProductosAlFavorito,
+    borrarProductoDeCarrito,
+    borrarProductoDeFavoritos
    }
