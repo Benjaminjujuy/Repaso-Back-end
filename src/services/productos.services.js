@@ -1,5 +1,6 @@
 const cloudinary = require("../helpers/cloudinary")
 const ProductosModel = require(`../models/productos.schema`)
+const usuariosModel = require("../models/usuarios.schema")
 
 const nuevoProducto = async(body) => {
 try {
@@ -111,7 +112,7 @@ const imagenProducto = async(idProducto, file) => {
 const agregarProductoFav = async(idProducto, idUsuario) => {
     try {
         const producto = await ProductosModel.findById(idProducto)
-        const usuario = await UsuariosModel.findById(idUsuario)
+        const usuario = await usuariosModel.findById(idUsuario)
 
         const productoExiste = usuario.favoritos.find((prod) => prod.id === idProducto)
 
@@ -141,22 +142,22 @@ const agregarProductoFav = async(idProducto, idUsuario) => {
 const agregarProductoCarrito = async(idProducto, idUsuario) => {
     try {
         const producto = await ProductosModel.findById(idProducto)
-        const usuario = await UsuariosModel.findById(idUsuario)
+        const usuario = await usuariosModel.findById(idUsuario)
 
-        const productoExiste = usuario.favoritos.find((prod) => prod.id === idProducto)
+        const productoExiste = usuario.carrito.find((prod) => prod.id === idProducto)
 
         if(productoExiste){
             return{
-                msg: `Producto ya existe en favoritos`,
+                msg: `Producto ya existe en el carrito`,
                 statuscode: 400
             }  
         }
      
-        usuario.favoritos.push(producto)
+        usuario.carrito.push(producto)
         await usuario.save()
 
         return{
-            msg: `Producto agregado a favoritos`,
+            msg: `Producto agregado al carrito`,
             statuscode: 200
         }
 
@@ -171,7 +172,7 @@ const agregarProductoCarrito = async(idProducto, idUsuario) => {
 
 const borrarProductoFav = async(idProducto, idUsuario) => {
     try {
-        const usuario = await UsuariosModel.findById(idUsuario)
+        const usuario = await usuariosModel.findById(idUsuario)
 
         const productoExiste = usuario.favoritos.find((prod) => prod.id === idProducto)
 
@@ -200,7 +201,7 @@ const borrarProductoFav = async(idProducto, idUsuario) => {
 
 const borrarProductoCarrito = async(idProducto, idUsuario) => {
     try {
-        const usuario = await UsuariosModel.findById(idUsuario)
+        const usuario = await usuariosModel.findById(idUsuario)
 
         const productoExiste = usuario.favoritos.find((prod) => prod.id === idProducto)
 

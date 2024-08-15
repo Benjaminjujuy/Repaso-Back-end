@@ -20,7 +20,9 @@ const usuarioSchema = new Schema({
     bloqueado: {
         type: Boolean,
         default: false
-    }
+    },
+    carrito:[],
+    favoritos:[]
 })
 
 usuarioSchema.methods.toJSON = function() {

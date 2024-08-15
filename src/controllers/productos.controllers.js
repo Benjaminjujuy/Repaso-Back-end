@@ -73,11 +73,11 @@ const agregarImagenProducto = async(req,res) =>{
      } 
 }
 
-const agregarProductosAlCarrito = () => {
+const agregarProductosAlCarrito =async (req, res) => {
 
 }
 
-const agregarProductosAlFavorito = () => {
+const agregarProductosAlFavorito = async (req, res) => {
 
 }
 
