@@ -169,32 +169,24 @@ const agregarProductoCarrito = async(idProducto, idUsuario) => {
     }
 }
 
-
 const borrarProductoFav = async(idProducto, idUsuario) => {
     try {
         const usuario = await usuariosModel.findById(idUsuario)
 
-        const productoExiste = usuario.favoritos.find((prod) => prod.id === idProducto)
+        const posicionProducto = usuario.favoritos.findIndex((prod) => prod.id === idProducto)
 
-        if(productoExiste){
-            return{
-                msg: `Producto borrado de favoritos`,
-                statuscode: 400
-            }  
-        }
-     
         usuario.favoritos.splice(posicionProducto, 1)
         await usuario.save()
 
         return{
-            msg: `Producto agregado a favoritos`,
+            msg: `Producto borrado de favoritos`,
             statuscode: 200
         }
 
     } catch (error) {
         return{
             statuscode:500,
-            msg:`Error al agregar producto al favorito`
+            msg:`Error al borrar producto de favorito`
         }
     }
 }
@@ -203,27 +195,20 @@ const borrarProductoCarrito = async(idProducto, idUsuario) => {
     try {
         const usuario = await usuariosModel.findById(idUsuario)
 
-        const productoExiste = usuario.favoritos.find((prod) => prod.id === idProducto)
+        const posicionProducto = usuario.carrito.findIndex((prod) => prod.id === idProducto)
 
-        if(productoExiste){
-            return{
-                msg: `Producto borrado de carrito`,
-                statuscode: 400
-            }  
-        }
-     
-        usuario.favoritos.splice(posicionProducto, 1)
+        usuario.carrito.splice(posicionProducto, 1)
         await usuario.save()
 
         return{
-            msg: `Producto agregado a favoritos`,
+            msg: `Producto borrado del carrito`,
             statuscode: 200
         }
 
     } catch (error) {
         return{
             statuscode:500,
-            msg:`Error al agregar producto al favorito`
+            msg:`Error al borrar producto del carrito`
         }
     }
 }
