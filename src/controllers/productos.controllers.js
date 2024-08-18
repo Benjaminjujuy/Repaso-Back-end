@@ -20,7 +20,7 @@ const crearProducto = async (req, res) => {
 const traerTodosLosProductos = async (req, res) => {
    const result = await serviciosDeProductos.obtenerProductos()
    if(result.statusCode === 200){
-    res.status(200).json({msg: result.msg})
+    res.status(200).json({msg: result.msg, productos: result.productos})
    }else{
     res.status(500).json({msg: result.msg})
    }
