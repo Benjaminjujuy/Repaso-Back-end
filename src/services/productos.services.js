@@ -102,7 +102,7 @@ const imagenProducto = async(idProducto, file) => {
         
     } catch (error) {
        return{
-       msg: `Error al crear producto`,
+       msg: `Error al crear Imagen`,
        statuscode: 500,
        error
     }
