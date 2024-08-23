@@ -29,7 +29,7 @@ const traerTodosLosProductos = async (req, res) => {
 const traerUnProducto = async (req,res) => {
    const result = await serviciosDeProductos.obtenerProducto(req.params.idProducto)
    if(result.statusCode === 200){
-    res.status(200).json({msg: result.msg})
+    res.status(200).json({msg: result.msg, producto: result.producto})
    }else{
     res.status(500).json({msg: result.msg})
    }
