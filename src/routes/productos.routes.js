@@ -2,6 +2,7 @@ const express = require(`express`)
 const { crearProducto, traerTodosLosProductos, traerUnProducto, actualizarUnProducto, eliminarUnProducto, agregarProductosAlFavorito, agregarProductosAlCarrito, borrarProductoDeFavoritos, borrarProductoDeCarrito, agregarImagenProducto } = require("../controllers/productos.controllers")
 const { check } = require("express-validator")
 const multer = require("../middlewares/multer")
+const auth = require("../middlewares/auth")
 const router = express.Router()
 
 
@@ -23,13 +24,13 @@ router.put(`/:idProductos`,[
 
 router.post(`/agregarImagen/:idProducto`, multer.single(`imagen`), agregarImagenProducto)
 
-router.post(`/agregarProdFav/:IdProducto`, agregarProductosAlFavorito)
+router.post(`/agregarProdFav/:IdProducto`, auth(`usuario`),agregarProductosAlFavorito)
 
-router.post(`/agregarProdCart/:IdProducto`, agregarProductosAlCarrito)
+router.post(`/agregarProdCart/:IdProducto`, auth(`usuario`),agregarProductosAlCarrito)
 
-router.delete(`/borrarProdFav/:IdProducto`, borrarProductoDeFavoritos)
+router.delete(`/borrarProdFav/:IdProducto`, auth(`usuario`),borrarProductoDeFavoritos)
 
-router.delete(`/borrarProdCart/:IdProducto`, borrarProductoDeCarrito)
+router.delete(`/borrarProdCart/:IdProducto`, auth(`usuario`),borrarProductoDeCarrito)
    
 router.delete(`/:idProducto`, eliminarUnProducto)
 
