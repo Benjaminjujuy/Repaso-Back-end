@@ -18,6 +18,10 @@ const productoSchema = new Schema({
     imagen:{
         type: String,
         default: ``
+    },
+    bloqueado:{
+        type:Boolean,
+        default: false
     }
 })
 

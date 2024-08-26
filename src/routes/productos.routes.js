@@ -1,8 +1,12 @@
 const express = require(`express`)
-const { crearProducto, traerTodosLosProductos, traerUnProducto, actualizarUnProducto, eliminarUnProducto, agregarProductosAlFavorito, agregarProductosAlCarrito, borrarProductoDeFavoritos, borrarProductoDeCarrito, agregarImagenProducto } = require("../controllers/productos.controllers")
+const { crearProducto, traerTodosLosProductos, traerUnProducto, actualizarUnProducto, eliminarUnProducto, 
+      agregarProductosAlFavorito, agregarProductosAlCarrito, borrarProductoDeFavoritos,
+       borrarProductoDeCarrito, agregarImagenProducto, habilitarUnProducto, deshabilitarUnProducto }
+     = require("../controllers/productos.controllers")
 const { check } = require("express-validator")
 const multer = require("../middlewares/multer")
 const auth = require("../middlewares/auth")
+const { habilitarProducto } = require("../services/productos.services")
 const router = express.Router()
 
 
@@ -22,6 +26,10 @@ router.put(`/:idProductos`,[
     check(`descripcion`, `Campo DESCRIPCION vacio`).not().isEmpty()
 ], actualizarUnProducto)
 
+router.put(`/habilitar/idProducto`, auth(`admin`),habilitarUnProducto)
+router.put(`/deshabilitar/idProducto`, auth(`admin`),deshabilitarUnProducto)
+
+
 router.post(`/agregarImagen/:idProducto`, multer.single(`imagen`), agregarImagenProducto)
 
 router.post(`/agregarProdFav/:IdProducto`, auth(`usuario`),agregarProductosAlFavorito)
@@ -32,6 +40,6 @@ router.delete(`/borrarProdFav/:IdProducto`, auth(`usuario`),borrarProductoDeFavo
 
 router.delete(`/borrarProdCart/:IdProducto`, auth(`usuario`),borrarProductoDeCarrito)
    
-router.delete(`/:idProducto`, eliminarUnProducto)
+router.delete(`/:idProducto`, auth(`admin`), eliminarUnProducto)
 
 module.exports = router

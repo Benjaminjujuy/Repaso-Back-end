@@ -213,6 +213,27 @@ const borrarProductoCarrito = async(idProducto, idUsuario) => {
     }
 }
 
+const habilitarProducto = async(idProducto) => {
+    const producto = await ProductosModel.findById(idProducto)
+    producto.bloqueado = false
+    await producto.save()
+
+    return{
+        msg:`Producto habilitado`,
+        statuscode: 200
+    }
+}
+
+const desHabilitarProducto = async(idProducto) => {
+    const producto = await ProductosModel.findById(idProducto)
+    producto.bloqueado = true
+    await producto.save()
+
+    return{
+        msg:`Producto deshabilitado`,
+        statuscode: 200
+    }
+}
 
 module.exports = {
     nuevoProducto,
@@ -224,5 +245,7 @@ module.exports = {
     agregarProductoFav,
     agregarProductoCarrito,
     borrarProductoFav,
-    borrarProductoCarrito
+    borrarProductoCarrito,
+    habilitarProducto,
+    desHabilitarProducto
 }

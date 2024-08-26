@@ -105,6 +105,24 @@ const borrarProductoDeFavoritos = async () => {
     } 
 }
 
+const habilitarUnProducto = async(req, res) => {
+   const result = await serviciosDeProductos.habilitarProducto(req.params.idProducto)
+   if(result.statuscode === 200){
+     res.status(200).json({msg: result.msg})
+    }else{
+     res.status(500).json({msg: result.msg})
+    } 
+}
+
+const deshabilitarUnProducto = async(req, res) => {
+   const result = await serviciosDeProductos.desHabilitarProducto(req.params.idProducto)
+   if(result.statuscode === 200){
+     res.status(200).json({msg: result.msg})
+    }else{
+     res.status(500).json({msg: result.msg})
+    } 
+}
+
 
    module.exports = {
     crearProducto,
@@ -116,5 +134,7 @@ const borrarProductoDeFavoritos = async () => {
     agregarProductosAlCarrito,
     agregarProductosAlFavorito,
     borrarProductoDeCarrito,
-    borrarProductoDeFavoritos
+    borrarProductoDeFavoritos,
+    habilitarUnProducto,
+    deshabilitarUnProducto
    }
