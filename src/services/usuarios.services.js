@@ -126,9 +126,32 @@ const nuevoUsuario = async(body) => {
       return{
         token,
         rol: usuarioExiste.rol,
+        idUsuario: usuarioExiste._id,
         msg: `Usuario logueado`,
         statusCode: 200
       }
+    }
+
+    const habilitarUsuario = async(idUsuario) => {
+        const usuario = await usuariosModel.findById(idUsuario)
+        usuario.bloqueado = false
+        await usuario.save()
+
+        return {
+            msg: `Usuario habilitado`,
+            statusCode: 200
+        }
+    }
+
+    const deshabilitarUsuario = async(idUsuario) => {
+        const usuario = await usuariosModel.findById(idUsuario)
+        usuario.bloqueado = true
+        await usuario.save()
+
+        return {
+            msg: `Usuario deshabilitado`,
+            statusCode: 200
+        }
     }
     
 module.exports = {
@@ -137,5 +160,7 @@ module.exports = {
     obtenerUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    inicioSesionUsuario
+    inicioSesionUsuario,
+    habilitarUsuario,
+    deshabilitarUsuario
 }

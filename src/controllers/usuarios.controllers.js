@@ -63,7 +63,27 @@ const iniciarSesion = async(req, res) => {
     const result = await serviciosDeUsuarios.inicioSesionUsuario(req.body)
 
     if(result.statusCode === 200){
-        res.status(200).json({msg: result.msg, rol: result.rol, token: result.token})
+        res.status(200).json({msg: result.msg, rol: result.rol, token: result.token, idUsuario: result.idUsuario})
+    }else{
+        res.status(400).json({msg: result.msg})
+    }
+}
+
+const habilitarUnUsuario = async(req, res) => {
+    const result = await serviciosDeUsuarios.habilitarUsuario(req.params.idUsuario)
+
+    if(result.statusCode === 200){
+        res.status(200).json({msg: result.msg})
+    }else{
+        res.status(400).json({msg: result.msg})
+    }
+}
+
+const deshabilitarUnUsuario = async(req, res) => {
+    const result = await serviciosDeUsuarios.deshabilitarUsuario(req.params.idUsuario)
+
+    if(result.statusCode === 200){
+        res.status(200).json({msg: result.msg})
     }else{
         res.status(400).json({msg: result.msg})
     }
@@ -75,5 +95,7 @@ module.exports = {
     traerUnUsuario,
     actualizarUnUsuario,
     eliminarUnUsuario,
-    iniciarSesion
+    iniciarSesion,
+    habilitarUnUsuario,
+    deshabilitarUnUsuario
 }

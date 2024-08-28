@@ -1,5 +1,5 @@
 const express = require(`express`)
-const { crearUsuario, traerTodosLosUsuarios, traerUnUsuario, actualizarUnUsuario, eliminarUnUsuario, iniciarSesion } = require("../controllers/usuarios.controllers")
+const { crearUsuario, traerTodosLosUsuarios, traerUnUsuario, actualizarUnUsuario, eliminarUnUsuario, iniciarSesion, habilitarUnUsuario, deshabilitarUnUsuario } = require("../controllers/usuarios.controllers")
 const { check } = require("express-validator")
 const auth = require("../middlewares/auth")
 
@@ -24,7 +24,11 @@ router.get(`/`, auth(`admin`), traerTodosLosUsuarios)
 router.get(`/:idUsuario`, traerUnUsuario)
    
 router.put(`/:idUsuario`, actualizarUnUsuario)
-   
+
+router.get(`/habilitar/:idUsuario`, auth(`admin`), habilitarUnUsuario)
+
+router.get(`/deshabilitar/:idUsuario`, auth(`admin`), deshabilitarUnUsuario)
+
 router.delete(`/:idUsuario`, eliminarUnUsuario)
 
 module.exports = router
