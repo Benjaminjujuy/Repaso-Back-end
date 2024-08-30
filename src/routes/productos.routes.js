@@ -1,7 +1,9 @@
 const express = require(`express`)
 const { crearProducto, traerTodosLosProductos, traerUnProducto, actualizarUnProducto, eliminarUnProducto, 
       agregarProductosAlFavorito, agregarProductosAlCarrito, borrarProductoDeFavoritos,
-       borrarProductoDeCarrito, agregarImagenProducto, habilitarUnProducto, deshabilitarUnProducto }
+       borrarProductoDeCarrito, agregarImagenProducto, habilitarUnProducto, deshabilitarUnProducto, 
+       obtenerProductoFavUsuario,
+       obtenerProductoCarritoUsuario}
      = require("../controllers/productos.controllers")
 const { check } = require("express-validator")
 const multer = require("../middlewares/multer")
@@ -20,6 +22,9 @@ router.get(`/`, traerTodosLosProductos)
    
 router.get(`/:idProducto`, traerUnProducto)
    
+router.get(`/obtenerProdFav`, auth(`usuario`), obtenerProductoFavUsuario)
+router.get(`/obtenerProdCart`, auth(`usuario`), obtenerProductoCarritoUsuario)
+
 router.put(`/:idProductos`,[
     check(`nombre`, `campo NOMBRE esta vacio`).not().isEmpty(),
     check(`precio`, `campo PRECIO vacio`).isLength({min: 5}),
