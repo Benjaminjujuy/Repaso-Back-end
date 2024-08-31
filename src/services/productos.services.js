@@ -236,7 +236,7 @@ const desHabilitarProducto = async(idProducto) => {
 }
 
 const obtenerProductosFavoritos = async(idUsuario) => {
-  const usuario = await usauriosModel.findById(idUsuario)
+  const usuario = await usuariosModel.findById(idUsuario)
 
   return{
     productos: usuario.favoritos,
@@ -245,7 +245,7 @@ const obtenerProductosFavoritos = async(idUsuario) => {
 }
 
 const obtenerProductosCarrito = async(idUsuario) => {
-    const usuario = await usauriosModel.findById(idUsuario)
+    const usuario = await usuariosModel.findById(idUsuario)
   
     return{
       productos: usuario.carrito,
